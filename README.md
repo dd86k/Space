@@ -6,6 +6,8 @@ You can easily change the character set as well.
 
 ## Screenshot(s)
 
-![Screenshot on xterm](http://didi.wilomgfx.net/p/space_xterm.png)
+xterm Screenshot
+![Screenshot on xterm](http://www.wilomgfx.net/didier/p/space_xterm.png)
 
-![Screenshot on cmd](http://didi.wilomgfx.net/p/space_win.png)
+cmd Screenshot
+![Screenshot on cmd](http://www.wilomgfx.net/didier/p/space_win.png)
