@@ -5,7 +5,7 @@ namespace Space
     class Program
     {
         /* Settings */
-        static char[] chars = { '*', '°' };
+        static char[] chars = { '*', '.' };
         static int density = 3;
         /* Not settings */
         static Random ran = new Random(DateTime.Now.Millisecond);
