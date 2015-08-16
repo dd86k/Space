@@ -191,6 +191,7 @@ namespace Space
             Console.WriteLine();
             Console.WriteLine(" -- Credits --");
             Console.WriteLine("DD~! (guitarxhero) - Original author");
+            Console.WriteLine("Pat (pt300) - Original idea");
         }
     }
 } 
