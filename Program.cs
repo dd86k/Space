@@ -8,6 +8,7 @@ namespace Space
         /* Settings */
         static char[] chars = { '*', '.' };
         static int density = 3;
+        static int stars = 0;
         static int time = 2500;
         static bool animated = false;
         static int remchars = 25;
@@ -30,6 +31,14 @@ namespace Space
                         if (!int.TryParse(args[i + 1], out density))
                         {
                             Console.WriteLine("Invalid -d parameter, aborting.");
+                            return 2;
+                        }
+                        break;
+
+                    case "-s":
+                        if (!int.TryParse(args[i + 1], out stars))
+                        {
+                            Console.WriteLine("Invalid -s parameter, aborting.");
                             return 2;
                         }
                         break;
@@ -77,20 +86,36 @@ namespace Space
 
             Console.Clear();
 
-            int rannum;
-            for (int w = 0; w < Width; w++)
+            if (stars > 0)
             {
-                for (int h = 0; h < Height; h++)
+                if (stars > Console.WindowHeight * Console.WindowWidth)
                 {
-                    rannum = Extension.GetRandomPourcentage();
+                    Console.WriteLine("Number of stars higher than screen capacity, aborting.");
+                    return 2;
+                }
 
-                    if (rannum < density)
+                for (int i = 0; i < stars; i++)
+                {
+                    PlaceStarRandom();
+                }
+            }
+            else
+            {
+                int rannum;
+                for (int w = 0; w < Width; w++)
+                {
+                    for (int h = 0; h < Height; h++)
                     {
-                        Console.ForegroundColor = colors.PickRandom();
-                        Console.Write(chars.PickRandom());
+                        rannum = Extension.GetRandomPourcentage();
+
+                        if (rannum < density)
+                        {
+                            Console.ForegroundColor = colors.PickRandom();
+                            Console.Write(chars.PickRandom());
+                        }
+                        else
+                            Console.Write(' ');
                     }
-                    else
-                        Console.Write(' ');
                 }
             }
 
@@ -106,6 +131,9 @@ namespace Space
             }
 
             Console.ReadKey(true);
+
+            Console.ResetColor();
+            Console.Clear();
 
             return 0;
         }
@@ -129,12 +157,23 @@ namespace Space
             Console.Write(chars.PickRandom());
         }
 
+        static void PlaceStarRandom()
+        {
+            int x = Extension.GetRandomX(Width);
+            int y = Extension.GetRandomY(Height);
+
+            Console.SetCursorPosition(x, y);
+            Console.ForegroundColor = colors.PickRandom();
+            Console.Write(chars.PickRandom());
+        }
+
         static void ShowHelp()
         {
             Console.WriteLine(" Usage:");
             Console.WriteLine("  Space [options]");
             Console.WriteLine();
-            Console.WriteLine("  -d              Density, 0-100. Default is 3.");
+            Console.WriteLine("  -d              Density, 0 to 100. Default is 3.");
+            Console.WriteLine("  -s              Number of stars, 1 to Width*Height. Overrides -d. No defaults.");
             Console.WriteLine("  -A, --animated  Animate, adds and remove stars. Disabled by default.");
             Console.WriteLine("  -t              [-A] Timer interval in ms. Default is 2500.");
             Console.WriteLine("  -r              [-A] Number of chars to remove on screen. Default is 25.");
