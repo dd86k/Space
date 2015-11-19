@@ -9,7 +9,7 @@ Built for .NET 4.5.1, tested with .NET and Mono.
 ## Screenshot(s)
 
 xterm Screenshot
-![Screenshot on xterm](http://www.wilomgfx.net/didier/p/space_xterm.png)
+![Screenshot on xterm](http://didi.wcantin.ca/p/space_xterm.png)
 
 cmd Screenshot
-![Screenshot on cmd](http://www.wilomgfx.net/didier/p/space_win.png)
+![Screenshot on cmd](http://didi.wcantin.ca/p/space_win.png)
