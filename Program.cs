@@ -6,25 +6,26 @@ namespace Space
     class Program
     {
         /* Settings */
-        static char[] chars = { '*', '.' };
+        static char[] chars;
         static int density = 3;
         static int stars = 0;
         static int time = 2500;
         static bool animated = false;
         static int remchars = 25;
         /* Not settings */
-        static readonly ConsoleColor[] colors = (ConsoleColor[])ConsoleColor.GetValues(typeof(ConsoleColor));
+        static ConsoleColor[] colors;
         static readonly int Width = Console.WindowWidth;
         static readonly int Height = Console.WindowHeight;
         /* Project properties */
         static readonly string ProjectVersion =
-            string.Format("{0}",
-            System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+            $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}";
 
         static int Main(string[] args)
         {
             for (int i = 0; i < args.Length; i++)
             {
+                colors = (ConsoleColor[])Enum.GetValues(typeof(ConsoleColor));
+
                 switch (args[i])
                 {
                     case "-d":
@@ -33,6 +34,11 @@ namespace Space
                             Console.WriteLine("Invalid -d parameter, aborting.");
                             return 2;
                         }
+                        break;
+
+                    case "-c":
+                        colors = new ConsoleColor[]
+                            { ConsoleColor.DarkGray, ConsoleColor.Gray, ConsoleColor.White, ConsoleColor.Black };
                         break;
 
                     case "-s":
@@ -74,6 +80,13 @@ namespace Space
                         return 0;
                 }
             }
+            if (Type.GetType("Mono.Runtime") != null)
+                // Linux Terminals support UTF-8 by default
+                chars = new char[] { '*', '.', '✷', '·', '✦', '✺', '⊹', '✹' };
+            else 
+                chars = new char[] { '*', '.' };
+
+
 
             try // to set the cursor invisible
             {
@@ -102,20 +115,18 @@ namespace Space
             else
             {
                 int rannum;
-                for (int w = 0; w < Width; w++)
+                int len = Width * Height;
+                for (int i = 0; i < len; i++)
                 {
-                    for (int h = 0; h < Height; h++)
-                    {
-                        rannum = Extension.GetRandomPourcentage();
+                    rannum = Extension.GetRandomPourcentage();
 
-                        if (rannum < density)
-                        {
-                            Console.ForegroundColor = colors.PickRandom();
-                            Console.Write(chars.PickRandom());
-                        }
-                        else
-                            Console.Write(' ');
+                    if (rannum < density)
+                    {
+                        Console.ForegroundColor = colors.PickRandom();
+                        Console.Write(chars.PickRandom());
                     }
+                    else
+                        Console.Write(' ');
                 }
             }
 
@@ -174,6 +185,7 @@ namespace Space
             Console.WriteLine();
             Console.WriteLine("  -d              Density, 0 to 100. Default is 3.");
             Console.WriteLine("  -s              Number of stars, 1 to Width*Height. Overrides -d. No defaults.");
+            Console.WriteLine("  -c              Colorless. Only use grayscale colors.");
             Console.WriteLine("  -A, --animated  Animate, adds and remove stars. Disabled by default.");
             Console.WriteLine("  -t              [-A] Timer interval in ms. Default is 2500.");
             Console.WriteLine("  -r              [-A] Number of chars to remove on screen. Default is 25.");
@@ -190,8 +202,8 @@ namespace Space
             Console.WriteLine("Project page: <https://github.com/guitarxhero/Space>");
             Console.WriteLine();
             Console.WriteLine(" -- Credits --");
-            Console.WriteLine("DD~! (guitarxhero) - Original author");
             Console.WriteLine("Pat (pt300) - Original idea");
+            Console.WriteLine("DD~! (guitarxhero) - Programming");
         }
     }
 } 
